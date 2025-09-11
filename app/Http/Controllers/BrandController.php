@@ -22,7 +22,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //Gate::authorize('viewAny', Brand::class);
+        Gate::authorize('viewAny', Brand::class);
         $brands = $this->brandServices->list();
 
         return response()->json($brands);
@@ -33,7 +33,7 @@ class BrandController extends Controller
     //  */
     public function store(BrandStoreRequest $request)
     {
-        //Gate::authorize('create', Brand::class);
+        Gate::authorize('create', Brand::class);
         //$brand = Brand::create($request->validate());
 
         $brand = $this->brandServices->store($request);
@@ -46,7 +46,7 @@ class BrandController extends Controller
     //  */
     public function show(Brand $brand)
     {
-        //Gate::authorize('view', $brand);
+        Gate::authorize('view', $brand);
         return response()->json($brand);
     }
 
@@ -55,7 +55,7 @@ class BrandController extends Controller
     //  */
     public function update(BrandUpdateRequest $request, Brand $brand)
     {
-        //Gate::authorize('update', $brand);
+        Gate::authorize('update', $brand);
         $brand = $this->brandServices->update($request, $brand);
 
         return response()->json($brand);
@@ -66,7 +66,7 @@ class BrandController extends Controller
     //  */
     public function destroy(Brand $brand)
     {
-        //Gate::authorize('destroy', $brand);
+        Gate::authorize('delete', $brand);
         $this->brandServices->destroy( $brand);
 
         return response()->json(["message" => 'Brand Deleted']);
