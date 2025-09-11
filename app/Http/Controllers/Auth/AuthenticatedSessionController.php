@@ -30,6 +30,6 @@ class AuthenticatedSessionController extends Controller
     {
        $request->user()->currentAccessToken()->delete();
 
-       return response()->json(['message'=> 'Toke revekee']);
+       return response()->json(['message'=> 'Toke revokee']);
     }
 }
