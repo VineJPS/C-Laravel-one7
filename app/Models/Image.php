@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\ImageObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+
+#[ObservedBy(ImageObserver::class)]
 
 class Image extends Model
 {
