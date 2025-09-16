@@ -19,20 +19,20 @@ class FrontController extends Controller
     }
 
     public function home() {
-        [$brands, $categories, $products] = Cache::tags(['product_related'])->rememberForever('home-cache', function () {
+        // [$brands, $categories, $products] = Cache::tags(['product_related'])->rememberForever('home-cache', function () {
             $brands = Brand::where('is_featured', 1)
                 ->select('id', 'name')
                 ->get();
             $categories = Category::where('is_featured', 1)
                 ->select('id', 'name')
                 ->get();
-            $products = Product::with(['skus:id,name,price,product_id', 'skus.images:id,url,sku_id'])
+            $products = Product::with(['Sku:id,name,price,product_id', 'Sku.images:id,url,sku_id'])
                 ->where('is_featured', 1)
                 ->select('id', 'name', 'slug')
                 ->get();
 
-            return [$brands, $categories, $products];
-        });
+            //return [$brands, $categories, $products];
+        // });
 
 
         return response([
@@ -52,7 +52,7 @@ class FrontController extends Controller
     public function products(Request $request) {
         $key = "product-request-{$request->page}-{$request->category_id}-{$request->brand_id}{$request->value_type}-{$request->price}";
         $products = Cache::tags(['product_related'])->rememberForever($key, function() use ($request) {
-            $products = Product::with('skus.images');
+            $products = Product::with('Sku.images');
 
             if ($request->filled('category_id')) {
                 $products->where('category_id', $request->get('category_id'));
@@ -63,7 +63,7 @@ class FrontController extends Controller
             }
 
             if ($request->filled('value_type') && $request->filled('price')) {
-                $products->whereHas('skus', function ($query) use ($request) {
+                $products->whereHas('Sku', function ($query) use ($request) {
                     $query->where('price', $request->value_type, $request->get('price'));
                 });
             }
@@ -78,7 +78,7 @@ class FrontController extends Controller
     }
 
     public function product(Product $product) {
-        $product = $product->load('skus.images');
+        $product = $product->load('Sku.images');
 
         return response()->json($product);
     }
