@@ -18,6 +18,8 @@ Route::apiResource('category', CategoryController::class)->Middleware('auth:sanc
 
 Route::apiResource('product', ProductController::class)->Middleware('auth:sanctum');
 
+Route::apiResource('products', ProductController::class)->middleware('auth:sanctum');
+
 
 Route::controller(FrontController::class)->prefix('frontend')->group(function () {
     Route::get('buildmenu', 'buildMenu');

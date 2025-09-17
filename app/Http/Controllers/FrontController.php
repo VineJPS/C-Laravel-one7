@@ -19,7 +19,7 @@ class FrontController extends Controller
     }
 
     public function home() {
-        // [$brands, $categories, $products] = Cache::tags(['product_related'])->rememberForever('home-cache', function () {
+        [$brands, $categories, $products] = Cache::tags(['product_related'])->rememberForever('home-cache', function(){
             $brands = Brand::where('is_featured', 1)
                 ->select('id', 'name')
                 ->get();
@@ -30,11 +30,10 @@ class FrontController extends Controller
                 ->where('is_featured', 1)
                 ->select('id', 'name', 'slug')
                 ->get();
-
-            //return [$brands, $categories, $products];
-        // });
-
-
+            
+            return [$brands, $categories, $products];
+        });    
+      
         return response([
             'brands' => $brands,
             'categories' => $categories,
